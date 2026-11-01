@@ -20,3 +20,6 @@ target_compile_definitions(dpiawaremouse PRIVATE
 
 install(TARGETS dpiawaremouse
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+install(FILES man/dpiawaremouse.1
+    DESTINATION ${CMAKE_INSTALL_MANDIR}/man1)
