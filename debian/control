@@ -1,0 +1,21 @@
+Source: dpiawaremouse
+Section: utils
+Priority: optional
+Maintainer: Simon Beaudoin <simon.beaudoin.0935@gmail.com>
+Build-Depends: cmake,
+               debhelper-compat (= 13)
+Standards-Version: 4.6.2
+Homepage: https://github.com/simonbeaudoin0935/DPIAwareMouse
+Vcs-Git: https://github.com/simonbeaudoin0935/DPIAwareMouse.git
+Vcs-Browser: https://github.com/simonbeaudoin0935/DPIAwareMouse
+Rules-Requires-Root: no
+
+Package: dpiawaremouse
+Architecture: any
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+Description: DPI-aware mouse crossing tool
+ Makes the mouse pointer cross between monitors with different DPI
+ scaling factors in a consistent way, so that the pointer leaves one
+ screen and enters the next at the matching physical position instead
+ of jumping.
