@@ -8,7 +8,7 @@
             "args": [
                 "-S", "${workspaceFolder}",
                 "-B", "${workspaceFolder}/build",
-                "-DCMAKE_BUILD_TYPE=Debug",
+                "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
                 "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
             ],
             "problemMatcher": []

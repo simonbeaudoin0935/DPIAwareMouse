@@ -28,13 +28,37 @@ skeleton stage; `src/main.cpp` is currently a stub that prints the version.
 
 VS Code tasks (preferred):
 
-- **CMake: Configure** — `cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+- **CMake: Configure** — `cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo
   -DCMAKE_EXPORT_COMPILE_COMMANDS=ON`
 - **CMake: Build** — default build task, compiles into `build/`
 - **Debian: Build package** — `dpkg-buildpackage --unsigned-source
   --unsigned-changes --build=binary`; artifacts land in the parent directory
 
 Equivalent CLI commands work from the repository root.
+
+### Compiler policy
+
+- GCC or Clang is required. Warnings are errors, including format,
+  conversion, signedness, shadowing and unsafe C++ constructs. Linker
+  warnings are fatal too. Lightweight libstdc++ assertions stay enabled
+  even in Release builds.
+- RelWithDebInfo (the default) retains debug symbols with `-O3` and
+  IPO/LTO. Release also uses `-O3` and IPO/LTO.
+  MinSizeRel keeps size optimization and LTO. Do not use `-Ofast`,
+  `-ffast-math` or `-march=native`: correctness and portable packages matter.
+- All builds require stack canaries on every function, frame pointers,
+  PIE, full RELRO, immediate symbol binding and a non-executable stack.
+- Stack-clash protection, control-flow protection and zero-initialized
+  automatic variables are enabled when supported; configuration warns
+  explicitly if a compiler/architecture lacks one of these features.
+- Optimized builds require libc fortification (level 3 preferred, with
+  an explicit warning when falling back to level 2).
+- Debug builds intentionally omit optimization, LTO and project-added
+  fortification for effective debugging. Other hardening remains enabled.
+- Debian builds enable all dpkg hardening features and use RelWithDebInfo;
+  `DEB_BUILD_OPTIONS=noopt` selects Debug instead.
+- Validate both Release and Debug builds after compiler-policy changes,
+  inspect ELF protections, and run the full Debian build plus lintian.
 
 ## Debian packaging rules
 
